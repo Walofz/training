@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use Exception;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -91,15 +92,22 @@ class SiteController extends Controller
 
         $this->layout = 'main-login';
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post())) {
+            try {
+                if (Yii::$app->ldap->auth($model->username, $model->password)) {
+                    return 'OK';
+                } else {
+                    return 'Not';
+                }
+            } catch (Exception $exception) {
+                return 'Ldap not connected';
+            }
+        } else {
+            $model->password = '';
+            return $this->render('login', [
+                'model' => $model,
+            ]);
         }
-
-        $model->password = '';
-
-        return $this->render('login', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -218,8 +226,8 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {

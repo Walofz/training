@@ -13,6 +13,7 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'aliases' => [
         '@adminlte' => '@frontend/theme/adminlte',
+        '@version' => '0.0.1'
     ],
     'components' => [
         'request' => [
