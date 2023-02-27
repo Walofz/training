@@ -12,22 +12,22 @@ class CourseSearch extends Course
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['globalSearch'], 'safe']
+            [['globalSearch'], 'string']
         ]);
     }
 
     public function search($params): ActiveDataProvider
     {
         $query = Course::find();
-        $dataProvider = new ActiveDataProvider(['query' => $query]);
 
         $this->load($params);
 
         $query->orFilterWhere(['LIKE', 'Course_ID', $this->globalSearch])
             ->orFilterWhere(['LIKE', 'Course_Name', $this->globalSearch]);
 
-        $query->orderBy(['Course_ID', SORT_ASC]);
+        $query->orderBy(['Course_ID' => 3]);
+        $query->limit(100);
 
-        return $dataProvider;
+        return new ActiveDataProvider(['query' => $query]);
     }
 }

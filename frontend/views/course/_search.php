@@ -12,6 +12,8 @@ use yii\web\View;
 ?>
 <div class="course-search">
     <?php $form = ActiveForm::begin(['action' => ['index'], 'method' => 'get']) ?>
-
+    <div class="input-group" style="text-align: right;width: 100%;">
+        <?= $form->field($model, 'globalSearch')->textInput(['placeholder' => 'ค้นหา', 'class' => 'form-control', 'aria-describedby' => 'basic-addon1', 'style' => 'width: 100%'])->label(false) ?>
+    </div>
     <?php ActiveForm::end() ?>
 </div>

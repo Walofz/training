@@ -1,15 +1,15 @@
 <?php
 
 use frontend\models\Session;
-use yii\base\InvalidConfigException;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\JqueryAsset;
 use yii\web\View;
-use yii\helpers\Url;
 
 /**
  * @var $this View
  */
+Session::checkLogin();
 
 $uri = Url::base();
 $path = Yii::$app->viewPath;

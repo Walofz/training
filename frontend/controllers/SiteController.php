@@ -2,13 +2,13 @@
 
 namespace frontend\controllers;
 
+use common\models\LoginForm;
 use Exception;
 use frontend\models\Redis;
 use Yii;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
 use yii\web\Response;
 
 /**
@@ -65,6 +65,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->session->get('username') == "")
+            return Yii::$app->response->redirect(['site/logout-session']);
+
         return $this->render('index');
     }
 

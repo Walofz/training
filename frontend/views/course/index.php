@@ -1,10 +1,14 @@
 <?php
 
+use frontend\models\CourseSearch;
 use kartik\grid\GridView;
+use yii\data\ActiveDataProvider;
 use yii\web\View;
 
 /**
  * @var $this View
+ * @var $searchModel CourseSearch
+ * @var $dataProvider ActiveDataProvider
  */
 
 $this->title = "";
@@ -15,10 +19,33 @@ $this->title = "";
             <h5>หลักสูตรการอบรม</h5>
         </div>
         <div class="card-body">
-            <div class="card card-default">
-                <div class="card-header">
-                    <?= $this->render('_search', ['model' => $searchModel]) ?>
-                </div>
+            <div class="">
+                <?= $this->render('_search', ['model' => $searchModel]) ?>
+            </div>
+            <div class="">
+                <?php try {
+                    print GridView::widget([
+                        'dataProvider' => $dataProvider,
+                        'panel' => [
+                            'type' => 'info'
+                        ],
+                        'pjax' => true,
+                        'toolbar' => [],
+                        'showFooter' => false,
+                        'options' => [
+                            'resizableColumns' => true,
+                            'resizableColumnsOptions' => ['resizeFromBody' => true],
+                            'persistResize' => true,
+                        ],
+                        'columns' => [
+                            'Course_ID:raw:รหัส',
+                            'Course_Name:raw:ชื่อ',
+                            'Document_ID:raw:อ้างอิง',
+                        ]
+                    ]);
+                } catch (Throwable $e) {
+                    print $e->getMessage();
+                } ?>
             </div>
         </div>
     </div>
