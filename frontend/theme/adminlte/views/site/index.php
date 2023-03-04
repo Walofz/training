@@ -14,6 +14,8 @@ Session::checkLogin();
 $uri = Url::base();
 $path = Yii::$app->viewPath;
 $usr = Yii::$app->session->get('username');
+$usrc = Session::checkLogin();
+if ($usrc == "") return Yii::$app->response->redirect(['site/logout-session']);
 
 $tmp_role = (new \frontend\models\Redis())->getInfo($usr, 'role');
 

@@ -1,16 +1,18 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <?php
 
+    use frontend\models\Redis;
     use frontend\models\Session;
     use hail812\adminlte\widgets\Menu;
     use yii\helpers\Json;
     use yii\helpers\Url;
-    use frontend\models\Redis;
 
     $hash = Yii::$app->session->get('username');
+    $usr = Session::checkLogin();
+    if ($usr == "") return Yii::$app->response->redirect(['site/logout-session']);
 
-    $userRole = (new Redis())->getInfo($hash,'role');
-    $userFname = Session::getFullname((new Redis())->getInfo($hash,'user'));
+    $userRole = (new Redis())->getInfo($hash, 'role');
+    $userFname = Session::getFullname((new Redis())->getInfo($hash, 'user'));
 
     $tmp = Json::decode($userRole);
     ?>

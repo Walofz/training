@@ -24,9 +24,7 @@ class CourseSearch extends Course
 
         $query->orFilterWhere(['LIKE', 'Course_ID', $this->globalSearch])
             ->orFilterWhere(['LIKE', 'Course_Name', $this->globalSearch]);
-
         $query->orderBy(['Course_ID' => 3]);
-        $query->limit(100);
 
         return new ActiveDataProvider(['query' => $query]);
     }

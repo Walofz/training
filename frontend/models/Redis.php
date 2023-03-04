@@ -2,13 +2,12 @@
 
 namespace frontend\models;
 
-use Exception;
 use Yii;
 use yii\helpers\Json;
 
 class Redis
 {
-
+    private int $timeout = 60 * 60 * 24;
     public function setSession($username)
     {
         $hash = base64_encode($username);
@@ -16,8 +15,10 @@ class Redis
 
         Yii::$app->session->set('username', $hash);
 
-        if (!$keys = $this->command('hget', ["training:{$hash}", 'user']))
-            return $this->command('hset', ["training:{$hash}", 'user', $username, 'role', Json::encode($role)]);
+        if (!$keys = $this->command('hget', ["training:{$hash}", 'user'])) {
+            $this->command('hset', ["training:{$hash}", 'user', $username, 'role', Json::encode($role)]);
+            return Yii::$app->redis->executeCommand("expire training:{$hash} {$this->timeout}");
+        }
     }
 
     public function getInfo($hash, $path)
@@ -27,7 +28,7 @@ class Redis
 
     public function checkSession($username)
     {
-        if ($this->getInfo($username,'user') == "")
+        if ($this->getInfo($username, 'user') == "")
             return Yii::$app->response->redirect(['site/login']);
     }
 

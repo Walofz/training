@@ -1,8 +1,11 @@
 <?php
 
+use common\models\TrainTypeTb;
 use frontend\models\CourseSearch;
 use kartik\grid\GridView;
+use yii\bootstrap5\Html;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 use yii\web\View;
 
 /**
@@ -10,43 +13,73 @@ use yii\web\View;
  * @var $searchModel CourseSearch
  * @var $dataProvider ActiveDataProvider
  */
+$path = Yii::$app->viewPath;
 
 $this->title = "";
+
+require_once "{$path}/course/modal/_template.php";
 ?>
 <div class="" style="font-family: Kanit-Light, serif">
-    <div class="card card-gray">
-        <div class="card-header">
-            <h5>หลักสูตรการอบรม</h5>
-        </div>
-        <div class="card-body">
-            <div class="">
-                <?= $this->render('_search', ['model' => $searchModel]) ?>
-            </div>
-            <div class="">
-                <?php try {
-                    print GridView::widget([
-                        'dataProvider' => $dataProvider,
-                        'panel' => [
-                            'type' => 'info'
-                        ],
-                        'pjax' => true,
-                        'toolbar' => [],
-                        'showFooter' => false,
-                        'options' => [
-                            'resizableColumns' => true,
-                            'resizableColumnsOptions' => ['resizeFromBody' => true],
-                            'persistResize' => true,
-                        ],
-                        'columns' => [
-                            'Course_ID:raw:รหัส',
-                            'Course_Name:raw:ชื่อ',
-                            'Document_ID:raw:อ้างอิง',
-                        ]
-                    ]);
-                } catch (Throwable $e) {
-                    print $e->getMessage();
-                } ?>
-            </div>
-        </div>
-    </div>
+    <?php try {
+        print GridView::widget(config: [
+            'dataProvider' => $dataProvider,
+            'pjax' => true,
+            'bordered' => true,
+            'condensed' => true,
+            'hover' => true,
+            'responsive' => false,
+            'panel' => [
+                'heading' => '<i class="fas fa-archive"></i>  หลักสูตรการอบรม',
+                'type' => 'primary',
+                'after' => false,
+                'before' => $this->render('_search', ['model' => $searchModel])
+            ],
+            'toolbar' => [],
+            'export' => [
+                'fontAwesome' => true
+            ],
+            'columns' => [
+                'Course_ID:raw:รหัส',
+                'Course_Name:raw:ชื่อ',
+                'Document_ID:raw:อ้างอิง',
+                [
+                    'attribute' => 'Course_Type',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return TrainTypeTb::findOne([$model->Course_Type])->Train_Type_Name_TH ?? "";
+                    },
+                    'label' => 'ประเภท'
+                ],
+                [
+                    'attribute' => 'Course_Cost',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return number_format($model->Course_Cost, 2);
+                    },
+                    'label' => 'ค่าใช้จ่าย'
+                ],
+                [
+                    'header' => 'จัดการ',
+                    'class' => 'yii\grid\ActionColumn',
+                    'headerOptions' => ['style' => 'text-align: center'],
+                    'contentOptions' => ['style' => 'text-align: center'],
+                    'template' => '{update}',
+                    'buttons' => [
+                        'update' => function ($url, $model) {
+                            $opt = [
+                                'class' => 'btnedit',
+                                'data-var' => 'update',
+                                'data-url' => Url::toRoute(['course/update', 'id' => $model->Course_ID]),
+                                'onclick' => 'openModal($(this))'
+                            ];
+                            $ico = "<span class='fas fa-file-alt btn btn-warning btn-sm'></span>";
+                            return Html::a($ico, 'javascript:void(0)', $opt);
+                        }
+                    ]
+                ]
+            ]
+        ]);
+    } catch (Throwable $e) {
+        print $e->getMessage();
+    } ?>
 </div>
