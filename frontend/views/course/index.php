@@ -6,6 +6,7 @@ use kartik\grid\GridView;
 use yii\bootstrap5\Html;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
+use yii\web\JqueryAsset;
 use yii\web\View;
 
 /**
@@ -14,8 +15,10 @@ use yii\web\View;
  * @var $dataProvider ActiveDataProvider
  */
 $path = Yii::$app->viewPath;
+$uri = Url::base();
 
 $this->title = "";
+$this->registerJsFile("{$uri}/js/course/index.js", ['depends' => JqueryAsset::class]);
 
 require_once "{$path}/course/modal/_template.php";
 ?>
@@ -68,7 +71,7 @@ require_once "{$path}/course/modal/_template.php";
                         'update' => function ($url, $model) {
                             $opt = [
                                 'class' => 'btnedit',
-                                'data-var' => 'update',
+                                'data-var' => "{$model->Course_Name}",
                                 'data-url' => Url::toRoute(['course/update', 'id' => $model->Course_ID]),
                                 'onclick' => 'openModal($(this))'
                             ];
