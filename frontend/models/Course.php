@@ -3,7 +3,20 @@
 namespace frontend\models;
 
 use common\models\CourseTb;
+use common\models\Document;
 
-class Course extends CourseTb {
+class Course extends CourseTb
+{
 
+    public static function getDocument(): array
+    {
+        $model = Document::find()->where(['document_type_id' => [1, 2, 3, 4, 5, 6, 7]])->all();
+        $tmp = [];
+        $tmp[] = ['id' => '-', 'txt' => '-'];
+        foreach ($model as $item) {
+            $tmp[] = ['id' => $item->document_code, 'txt' => "{$item->document_code} {$item->document_name}"];
+        }
+
+        return $tmp;
+    }
 }
