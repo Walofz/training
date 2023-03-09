@@ -1,4 +1,4 @@
-<div id="tempModal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
+<div id="tempModal" class="modal fade" aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

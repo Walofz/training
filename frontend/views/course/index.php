@@ -22,15 +22,15 @@ $this->registerJsFile("{$uri}/js/course/index.js", ['depends' => JqueryAsset::cl
 
 require_once "{$path}/course/modal/_template.php";
 ?>
-<div class="" style="font-family: Kanit-Light, serif">
+<div class="course" style="font-family: Kanit-Light, serif">
     <?php try {
         print GridView::widget(config: [
             'dataProvider' => $dataProvider,
             'pjax' => true,
             'bordered' => true,
-            'condensed' => true,
+            'condensed' => false,
             'hover' => true,
-            'responsive' => false,
+            'responsive' => true,
             'panel' => [
                 'heading' => '<i class="fas fa-archive"></i>  หลักสูตรการอบรม',
                 'type' => 'primary',

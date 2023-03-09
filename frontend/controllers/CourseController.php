@@ -26,7 +26,18 @@ class CourseController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            var_export($model);
+            return var_export($model);
+        }
+
+        return $this->renderAjax('_form', ['model' => $model]);
+    }
+
+    public function actionCreate()
+    {
+        $model = new Course();
+
+        if ($model->load(Yii::$app->request->post())) {
+            return var_export($model);
         }
 
         return $this->renderAjax('_form', ['model' => $model]);

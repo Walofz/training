@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use common\models\CourseTb;
 use common\models\Document;
+use common\models\TrainTypeTb;
 
 class Course extends CourseTb
 {
@@ -14,7 +15,19 @@ class Course extends CourseTb
         $tmp = [];
         $tmp[] = ['id' => '-', 'txt' => '-'];
         foreach ($model as $item) {
-            $tmp[] = ['id' => $item->document_code, 'txt' => "{$item->document_code} {$item->document_name}"];
+            $tmp[] = ['id' => $item->document_code, 'txt' => "{$item->document_code} | {$item->document_name}"];
+        }
+
+        return $tmp;
+    }
+
+    public static function getType(): array
+    {
+        $model = TrainTypeTb::find()->all();
+        $tmp = [];
+        $tmp[] = ['id' => 0, 'txt' => '-'];
+        foreach ($model as $item) {
+            $tmp[] = ['id' => $item->Train_Type_ID, 'txt' => $item->Train_Type_Name_TH];
         }
 
         return $tmp;
