@@ -49,12 +49,14 @@ $this->registerJsFile("{$uri}/js/course/form.js", ['depends' => JqueryAsset::cla
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-6">
+                    <?php $model->Course_Type = $model->Course_Type == "" ? 1 : $model->Course_Type ?>
                     <?= $form->field($model, 'Course_Type')->widget(Select2::class, [
                         'data' => ArrayHelper::map(Course::getType(), 'id', 'txt'),
                         'pluginOptions' => ['dropdownParent' => '#tempModal']
                     ])->label('ประเภทสูตรการอบรม') ?>
                 </div>
                 <div class="col-lg-6">
+                    <?php $model->Course_Cost = $model->Course_Cost == "" ? 0 : $model->Course_Cost ?>
                     <?= $form->field($model, 'Course_Cost')->textInput(['type' => 'number'])->label('ค่าใช้จ่ายในหลักสูตรการอบรม') ?>
                 </div>
             </div>

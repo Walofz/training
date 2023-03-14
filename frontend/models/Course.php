@@ -6,6 +6,10 @@ use common\models\CourseTb;
 use common\models\Document;
 use common\models\TrainTypeTb;
 
+/**
+ *
+ * @property-read mixed $newID
+ */
 class Course extends CourseTb
 {
 
@@ -31,5 +35,16 @@ class Course extends CourseTb
         }
 
         return $tmp;
+    }
+
+    public function getNewID(): string
+    {
+        $model = self::find()->max('Course_ID');
+        $prefix = substr($model, 0, 2) ?? "CO";
+        $subfix = (int)substr($model, 2, strlen($model)) ?? 1;
+        if ($prefix != null && $subfix != null) {
+            $subfix = sprintf('%06d', $subfix + 1);
+        }
+        return "{$prefix}{$subfix}";
     }
 }

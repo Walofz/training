@@ -37,4 +37,11 @@ class Session
         $model = PRODSPECACCESS::findOne(['USER_ID' => "{$username}{$sx}"]);
         return $model->USER_NAME ?? "";
     }
+
+    public static function getUserID($username): string
+    {
+        $sx = (new Session())->getSubtext();
+        $model = PRODSPECACCESS::findOne(['USER_ID' => "{$username}{$sx}"]);
+        return $model->USER_ID ?? "";
+    }
 }

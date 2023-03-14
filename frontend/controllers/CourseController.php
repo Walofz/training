@@ -4,9 +4,12 @@ namespace frontend\controllers;
 
 use frontend\models\Course;
 use frontend\models\CourseSearch;
+use frontend\models\Redis;
+use frontend\models\Session;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class CourseController extends Controller
 {
@@ -26,21 +29,27 @@ class CourseController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            return var_export($model);
+            $model->Date_Create = date('Y-m-d');
+            $model->save(false);
+            $this->redirect(['course/index']);
+        } else {
+            return $this->renderAjax('_form', ['model' => $model]);
         }
-
-        return $this->renderAjax('_form', ['model' => $model]);
     }
 
-    public function actionCreate()
+    public function actionCreate(): Response|string
     {
         $model = new Course();
 
         if ($model->load(Yii::$app->request->post())) {
-            return var_export($model);
+            $model->Course_ID = (new Course())->getNewID();
+            $model->User_Create = Session::getUserID((new Redis())->getInfo(Yii::$app->session->get('username'), 'user'));
+            $model->Date_Create = date('Y-m-d');
+            $model->save(false);
+            return $this->redirect(['course/index']);
+        } else {
+            return $this->renderAjax('_form', ['model' => $model]);
         }
-
-        return $this->renderAjax('_form', ['model' => $model]);
     }
 
     /**
