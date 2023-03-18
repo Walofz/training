@@ -1,37 +1,36 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\TrainerSearch $model */
 /** @var yii\widgets\ActiveForm $form */
+
+$opt = [
+    'class' => 'btn btn-success btncreate',
+    'data-var' => '',
+    'data-url' => Url::toRoute(['trainer/create']),
+    'onclick' => 'openModal($(this))'
+];
 ?>
 
 <div class="trainner-search">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
-
-    <?= $form->field($model, 'Trainner_ID') ?>
-
-    <?= $form->field($model, 'Trainner_Name') ?>
-
-    <?= $form->field($model, 'Trainner_Descrition') ?>
-
-    <?= $form->field($model, 'Trainner_From') ?>
-
-    <?= $form->field($model, 'User_Create') ?>
-
-    <?php // echo $form->field($model, 'Date_Create') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+    <?php $form = ActiveForm::begin(['action' => ['index'], 'method' => 'get',]); ?>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-4">
+                    <?= $form->field($model, 'globalSearch')->textInput(['placeholder' => 'ค้นหา', 'class' => 'form-control', 'aria-describedby' => 'basic-addon1', 'style' => 'width: 100%'])->label(false) ?>
+                </div>
+                <div class="col-lg-4">
+                    <?= Html::button('เพิ่มใหม่', $opt) ?>
+                </div>
+            </div>
+        </div>
     </div>
-
     <?php ActiveForm::end(); ?>
 
 </div>

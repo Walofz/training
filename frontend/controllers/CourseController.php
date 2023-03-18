@@ -28,7 +28,7 @@ class CourseController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
             $model->Date_Create = date('Y-m-d');
             $model->save(false);
             $this->redirect(['course/index']);

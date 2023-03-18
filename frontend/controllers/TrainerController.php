@@ -7,6 +7,7 @@ use frontend\models\TrainerSearch;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * TrainnerController implements the CRUD actions for Trainner model.
@@ -63,7 +64,7 @@ class TrainerController extends Controller
     /**
      * Creates a new Trainner model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -85,28 +86,28 @@ class TrainerController extends Controller
     /**
      * Updates an existing Trainner model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $Trainner_ID Trainner ID
-     * @return string|\yii\web\Response
+     * @param $id
+     * @return string|null
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($Trainner_ID)
+    public function actionUpdate($id): ?string
     {
-        $model = $this->findModel($Trainner_ID);
+        $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'Trainner_ID' => $model->Trainner_ID]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            return var_export($model);
+        } else {
+            return $this->renderAjax('_form', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
      * Deletes an existing Trainner model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $Trainner_ID Trainner ID
-     * @return \yii\web\Response
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($Trainner_ID)
