@@ -1,14 +1,11 @@
 <?php
 
-use yii\helpers\Url;
-use yii\web\JqueryAsset;
+use yii\helpers\Json;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\Trainer $model */
 /** @var yii\widgets\ActiveForm $form */
-$uri = Url::base();
-$this->registerJsFile("{$uri}/js/trainer/form.js", ['depends' => JqueryAsset::class]);
 ?>
 <div class="trainner-form">
     <?php $form = ActiveForm::begin(); ?>
@@ -27,10 +24,22 @@ $this->registerJsFile("{$uri}/js/trainer/form.js", ['depends' => JqueryAsset::cl
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
-
+                    <?= $form->field($model, 'Trainner_Descrition')->textarea(['class' => 'trainner_name form-control', 'style' => 'resize:none', 'rows' => 5])->label('รายละเอียด') ?>
+                </div>
+                <div class="col-lg-12">
+                    <?= $form->field($model, 'Trainner_From')->textInput(['class' => 'form-control'])->label('มาจาก') ?>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal-footer">
+        <?php
+        $userRole = (new \frontend\models\Redis())->getInfo(Yii::$app->session->get('username'), 'role');
+        $tmp = Json::decode($userRole);
+        ?>
+        <button type="submit" class="btn btn-success" style="visibility: <?= (!in_array('W1', $tmp)) ? 'hidden' : '' ?>">บันทึก</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="$('#tempModal').modal('hide')">ปิด</button>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

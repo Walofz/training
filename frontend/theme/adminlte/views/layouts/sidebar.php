@@ -56,7 +56,7 @@
             <?php if (in_array('R3', $tmp) || in_array('W3', $tmp)) : ?>
                 <?= Menu::widget([
                     'items' => [
-                        ['label' => 'สถานที่อบรม', 'icon' => 'map-signs', 'url' => ['/training_facility/index']]
+                        ['label' => 'สถานที่อบรม', 'icon' => 'map-signs', 'url' => ['/location/index']]
                     ]
                 ]) ?>
             <?php endif; ?>
