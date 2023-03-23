@@ -17,4 +17,15 @@ class Location extends LocationTb
         }
         return $tmp;
     }
+
+    public function getNewID(): string
+    {
+        $model = self::find()->max('Location_ID');
+        $prefix = substr($model, 0, 2) ?? "LO";
+        $subfix = (int)substr($model, 2, strlen($model)) ?? 1;
+        if ($prefix != null && $subfix != null) {
+            $subfix = sprintf('%06d', $subfix + 1);
+        }
+        return "{$prefix}{$subfix}";
+    }
 }

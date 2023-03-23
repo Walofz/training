@@ -53,7 +53,12 @@ require_once "{$path}/course/modal/_template.php";
                     },
                     'label' => 'จังหวัด'
                 ],
-                'Location_Tel:raw:เบอร์โทรฯ',
+                [
+                    'attribute' => 'Location_Tel',
+                    'contentOptions' => ['style' => 'width: 10%'],
+                    'format' => 'raw',
+                    'label' => 'เบอร์ติดต่อ'
+                ],
                 [
                     'header' => 'จัดการ',
                     'class' => 'yii\grid\ActionColumn',

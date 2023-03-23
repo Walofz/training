@@ -4,6 +4,10 @@ namespace frontend\controllers;
 
 use frontend\models\Location;
 use frontend\models\LocationSearch;
+use frontend\models\Redis;
+use frontend\models\Session;
+use Yii;
+use yii\base\Response;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -61,25 +65,26 @@ class LocationController extends Controller
     }
 
     /**
-     * Creates a new Location model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * @return Response|string
      */
-    public function actionCreate()
+    public function actionCreate(): Response|string
     {
         $model = new Location();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'Location_ID' => $model->Location_ID]);
+            if ($model->load($this->request->post())) {
+                $model->Location_ID = (new Location())->getNewID();
+                $model->User_Create = Session::getUserID((new Redis())->getInfo(Yii::$app->session->get('username'), 'user'));
+                $model->Date_Create = date('Y-m-d');
+                $model->save(false);
+                return $this->redirect(['location/index']);
             }
         } else {
             $model->loadDefaultValues();
+            return $this->renderAjax('create', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -92,7 +97,9 @@ class LocationController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-
+            $model->Date_Create = date('Y-m-d');
+            $model->save(false);
+            $this->redirect(['location/index']);
         } else {
             return $this->renderAjax('_form', ['model' => $model]);
         }
