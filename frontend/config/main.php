@@ -56,6 +56,12 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'formatter' => [
+            'dateFormat' => 'dd/MM/yyyy',
+            'datetimeFormat' => 'dd/MM/yyyy H:mm:ss',
+            'timeFormat' => 'H:mm:ss',
+            'timeZone' => 'Asia/Bangkok',
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\TrainingView;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -42,15 +43,15 @@ class TrainingSearch extends Training
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search(array $params): ActiveDataProvider
     {
-        $query = Training::find();
+        $query = TrainingView::find();
 
         $this->load($params);
 
-        $query->orFilterWhere(['LIKE', 'Course_ID', $this->globalSearch])
-            ->orFilterWhere(['LIKE', 'Trainer_ID', $this->globalSearch])
-            ->orFilterWhere(['LIKE', 'Location_ID', $this->globalSearch]);
+        $query->orFilterWhere(['LIKE', 'Course_Name', $this->globalSearch])
+            ->orFilterWhere(['LIKE', 'Trainner_Name', $this->globalSearch])
+            ->orFilterWhere(['LIKE', 'Location_Name', $this->globalSearch]);
 
         $query->limit(60);
         $query->orderBy(['Train_Detail_ID' => 3]);
