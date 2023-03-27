@@ -37,6 +37,16 @@ class Course extends CourseTb
         return $tmp;
     }
 
+    public static function getCourse(): array
+    {
+        $model = self::find()->all();
+        $tmp = [];
+        foreach ($model as $item) {
+            $tmp[] = ['id' => $item->Course_ID, 'txt' => $item->Course_Name];
+        }
+        return $tmp;
+    }
+
     public function getNewID(): string
     {
         $model = self::find()->max('Course_ID');

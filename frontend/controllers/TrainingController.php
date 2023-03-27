@@ -88,24 +88,18 @@ class TrainingController extends Controller
     /**
      * Updates an existing Training model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $Course_ID Course ID
-     * @param string $Location_ID Location ID
-     * @param int $Train_Detail_ID Train Detail ID
-     * @param string $Trainer_ID Trainer ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($Course_ID, $Location_ID, $Train_Detail_ID, $Trainer_ID)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($Course_ID, $Location_ID, $Train_Detail_ID, $Trainer_ID);
+        $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'Course_ID' => $model->Course_ID, 'Location_ID' => $model->Location_ID, 'Train_Detail_ID' => $model->Train_Detail_ID, 'Trainer_ID' => $model->Trainer_ID]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            var_export($model);
+        } else {
+            return $this->renderAjax('_form', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -128,16 +122,12 @@ class TrainingController extends Controller
     /**
      * Finds the Training model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $Course_ID Course ID
-     * @param string $Location_ID Location ID
-     * @param int $Train_Detail_ID Train Detail ID
-     * @param string $Trainer_ID Trainer ID
      * @return Training the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($Course_ID, $Location_ID, $Train_Detail_ID, $Trainer_ID)
+    protected function findModel($id): Training
     {
-        if (($model = Training::findOne(['Course_ID' => $Course_ID, 'Location_ID' => $Location_ID, 'Train_Detail_ID' => $Train_Detail_ID, 'Trainer_ID' => $Trainer_ID])) !== null) {
+        if (($model = Training::findOne(['Train_Detail_ID' => $id])) != null) {
             return $model;
         }
 

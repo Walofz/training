@@ -19,7 +19,7 @@ $uri = Url::base();
 $this->title = "";
 $this->registerJsFile("{$uri}/js/training/index.js", ['depends' => JqueryAsset::class]);
 
-require_once "{$path}/course/modal/_template.php";
+require_once "{$path}/training/modal/_template.php";
 ?>
 <div class="training">
     <?php try {

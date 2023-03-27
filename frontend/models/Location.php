@@ -18,6 +18,19 @@ class Location extends LocationTb
         return $tmp;
     }
 
+    /**
+     * @return array
+     */
+    public static function getLocation(): array
+    {
+        $model = Location::find()->all();
+        $tmp = [];
+        foreach ($model as $item) {
+            $tmp[] = ['id' => $item->Location_ID, 'txt' => $item->Location_Name];
+        }
+        return $tmp;
+    }
+
     public function getNewID(): string
     {
         $model = self::find()->max('Location_ID');
