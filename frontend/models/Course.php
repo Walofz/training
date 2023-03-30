@@ -41,6 +41,7 @@ class Course extends CourseTb
     {
         $model = self::find()->all();
         $tmp = [];
+        $tmp[] = ['id' => '-', 'txt' => '-'];
         foreach ($model as $item) {
             $tmp[] = ['id' => $item->Course_ID, 'txt' => $item->Course_Name];
         }

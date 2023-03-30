@@ -7,6 +7,7 @@ use frontend\models\CourseSearch;
 use frontend\models\Redis;
 use frontend\models\Session;
 use Yii;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -62,5 +63,10 @@ class CourseController extends Controller
         }
 
         throw new NotFoundHttpException('Not no no no no no ~');
+    }
+
+    public function actionGetdetail($id): string
+    {
+        return Json::encode($this->findModel($id)->toArray());
     }
 }

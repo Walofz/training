@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\UsrpTrainingline;
 use frontend\models\Training;
 use frontend\models\TrainingSearch;
 use yii\filters\VerbFilter;
@@ -73,16 +74,15 @@ class TrainingController extends Controller
         $model = new Training();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'Course_ID' => $model->Course_ID, 'Location_ID' => $model->Location_ID, 'Train_Detail_ID' => $model->Train_Detail_ID, 'Trainer_ID' => $model->Trainer_ID]);
+            if ($model->load($this->request->post())) {
+                var_export($model);
             }
         } else {
             $model->loadDefaultValues();
+            return $this->renderAjax('_form', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -94,7 +94,11 @@ class TrainingController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            var_export($model);
+            $model->Start_Train_Date = date('Y-m-d', strtotime(str_replace('/', '-', $model->Start_Train_Date)));
+            $model->End_Train_Date = date('Y-m-d', strtotime(str_replace('/', '-', $model->End_Train_Date)));
+            $model->Date_Create = date('Y-m-d');
+            $model->save(false);
+            $this->redirect(['training/index']);
         } else {
             return $this->renderAjax('_form', [
                 'model' => $model,
@@ -133,4 +137,31 @@ class TrainingController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+//    public function actionTransferData()
+//    {
+//        $model = TrainingTb::find()->select(['Employee_ID'])->where(['len(Employee_ID)' => 13])->distinct()->all();
+//        foreach ($model as $item) {
+//            //UsrpTrainingline::deleteAll(['emp_i_card' => $item->Employee_ID]);
+//            if (UsrpTrainingline::find()->where(['emp_i_card' => $item->Employee_ID])->count() == 0) {
+//                $sub1 = TrainingTb::findAll(['Employee_ID' => $item->Employee_ID]);
+//                foreach ($sub1 as $subitem1) {
+//                    $newmodel = new UsrpTrainingline();
+//                    $newmodel->emp_i_card = $subitem1->Employee_ID;
+//                    $newmodel->status = 1;
+//                    $newmodel->train_detail_recid = $subitem1->Train_Detail_ID;
+//                    $newmodel->create_at = date('Y-m-d');
+//                    $newmodel->create_user = Session::getUserIDwhash(Yii::$app->session->get('username'));
+//                    $newmodel->save(false);
+//                }
+//            }
+//        }
+//
+//        print "OK";
+//    }
+
+//    public function actionGetdetail($id): bool|int|string|null
+//    {
+//        return TrainingTb::find()->where(['Train_Detail_ID' => $id, 'Status' => 1])->count();
+//    }
 }

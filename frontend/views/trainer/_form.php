@@ -32,13 +32,13 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
     </div>
-
+    <br>
     <div class="modal-footer">
         <?php
         $userRole = (new \frontend\models\Redis())->getInfo(Yii::$app->session->get('username'), 'role');
         $tmp = Json::decode($userRole);
         ?>
-        <button type="submit" class="btn btn-success" style="visibility: <?= (!in_array('W1', $tmp)) ? 'hidden' : '' ?>">บันทึก</button>
+        <button type="submit" class="btn btn-success" style="visibility: <?= (!in_array('W2', $tmp)) ? 'hidden' : '' ?>">บันทึก</button>
         <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="$('#tempModal').modal('hide')">ปิด</button>
     </div>
     <?php ActiveForm::end(); ?>

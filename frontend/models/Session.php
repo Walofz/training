@@ -44,4 +44,12 @@ class Session
         $model = PRODSPECACCESS::findOne(['USER_ID' => "{$username}{$sx}"]);
         return $model->USER_ID ?? "";
     }
+
+    public static function getUserIDwhash($username): string
+    {
+        $sx = (new Session())->getSubtext();
+        $pf = base64_decode($username);
+        $model = PRODSPECACCESS::findOne(['USER_ID' => "{$pf}{$sx}"]);
+        return $model->USER_ID ?? "";
+    }
 }

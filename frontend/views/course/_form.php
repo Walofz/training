@@ -62,7 +62,7 @@ $this->registerJsFile("{$uri}/js/course/form.js", ['depends' => JqueryAsset::cla
             </div>
         </div>
     </div>
-
+    <br>
     <div class="modal-footer">
         <?php
         $userRole = (new Redis())->getInfo(Yii::$app->session->get('username'), 'role');

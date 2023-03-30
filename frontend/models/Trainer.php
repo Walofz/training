@@ -4,8 +4,23 @@ namespace frontend\models;
 
 use common\models\TrainnerTb;
 
+/**
+ *
+ * @property-read string $newID
+ */
 class Trainer extends TrainnerTb
 {
+
+    public static function getTrainer(): array
+    {
+        $model = TrainnerTb::find()->all();
+        $tmp = [];
+        $tmp[] = ['id' => '-', 'txt' => '-'];
+        foreach ($model as $item) {
+            $tmp[] = ['id' => $item->Trainner_ID, 'txt' => $item->Trainner_Name];
+        }
+        return $tmp;
+    }
 
     public function getNewID(): string
     {

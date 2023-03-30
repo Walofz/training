@@ -25,6 +25,7 @@ class Location extends LocationTb
     {
         $model = Location::find()->all();
         $tmp = [];
+        $tmp[] = ['id' => '-', 'txt' => '-'];
         foreach ($model as $item) {
             $tmp[] = ['id' => $item->Location_ID, 'txt' => $item->Location_Name];
         }

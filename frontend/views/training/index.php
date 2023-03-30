@@ -53,8 +53,18 @@ require_once "{$path}/training/modal/_template.php";
                     'class' => 'yii\grid\ActionColumn',
                     'headerOptions' => ['style' => 'text-align: center'],
                     'contentOptions' => ['style' => 'text-align: center'],
-                    'template' => '{update}',
+                    'template' => '{employee} {update}',
                     'buttons' => [
+                        'employee' => function ($url, $model) {
+                            $opt = [
+                                'class' => 'btnemp',
+                                'data-var' => "{$model->Course_Name}",
+                                'data-url' => Url::toRoute(['training/updateemp', 'id' => $model->Train_Detail_ID]),
+                                'onclick' => 'openModal($(this))'
+                            ];
+                            $ico = "<span class='fas fa-user btn btn-info btn-sm'></span>";
+                            return Html::a($ico, 'javascript:void(0)', $opt);
+                        },
                         'update' => function ($url, $model) {
                             $opt = [
                                 'class' => 'btnedit',
