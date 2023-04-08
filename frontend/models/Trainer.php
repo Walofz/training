@@ -15,7 +15,7 @@ class Trainer extends TrainnerTb
     {
         $model = TrainnerTb::find()->all();
         $tmp = [];
-        $tmp[] = ['id' => '-', 'txt' => '-'];
+//        $tmp[] = ['id' => '-', 'txt' => '-'];
         foreach ($model as $item) {
             $tmp[] = ['id' => $item->Trainner_ID, 'txt' => $item->Trainner_Name];
         }

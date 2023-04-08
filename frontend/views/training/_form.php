@@ -73,8 +73,9 @@ $this->registerJsFile("{$uri}/js/training/form.js", ['depends' => JqueryAsset::c
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-3">
-                            <?= Html::label('ค่าใช้จ่ายยอดรวม (บาท)', 'txtcourse') ?>
-                            <?= Html::textInput('', number_format($model->Course_Cost ?? 0, 2, '.', ','), ['class' => 'form-control txtcourse', 'readonly' => true, 'style' => 'text-align: right']) ?>
+                            <?php Html::label('ค่าใช้จ่ายยอดรวม (บาท)', 'txtcourse') ?>
+                            <?php Html::textInput('', number_format($model->Course_Cost ?? 0, 2, '.', ','), ['class' => 'form-control txtcourse', 'name' => 'course', 'readonly' => true, 'style' => 'text-align: right']) ?>
+                            <?= $form->field($model, 'Course_Cost')->textInput(['class' => 'form-control txtcourse', 'readonly' => true, 'style' => 'text-align: right']) ?>
                         </div>
                         <div class="col-lg-3">
                             <?= Html::label('เอกสารอ้างอิง', 'txtdoc') ?>
@@ -86,7 +87,7 @@ $this->registerJsFile("{$uri}/js/training/form.js", ['depends' => JqueryAsset::c
                         </div>
                         <div class="col-lg-3">
                             <?= Html::label('ค่าใช้จ่ายต่อคน (บาท)', 'txtpercost') ?>
-                            <?php $calc = $model->isNewRecord ? 0 : $model->Course_Cost / $model->User_Total ?>
+                            <?php $calc = $model->isNewRecord ? 0 : (($model->User_Total == 0 || $model->Course_Cost == 0) ? 0 : $model->Course_Cost / $model->User_Total) ?>
                             <?= Html::textInput('', number_format($calc, 2, '.', ','), ['class' => 'form-control txtpercost', 'readonly' => true, 'style' => 'text-align: right']) ?>
                         </div>
                     </div>

@@ -2,10 +2,10 @@ const addedData = () => {
     const id = $(".cos_select option:selected").val()
     if (id.length === 8) {
         $.getJSON('/course/getdetail', {id: id}, (res) => {
-            // let cost = res['Course_Cost'] ?? 0
+            let cost = res['Course_Cost'] ?? 0
             let extdoc = res['Document_ID'] ?? ""
 
-            // $(".txtcourse").val(cost)
+            $(".txtcourse").val(cost)
             $(".txtdoc").val(extdoc)
         })
     }

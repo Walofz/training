@@ -17,6 +17,8 @@ $path = Yii::$app->viewPath;
 $uri = Url::base();
 
 $this->title = "";
+$this->registerJsFile("{$uri}/js/sweetalert2.all.min.js", ['depends' => JqueryAsset::class]);
+$this->registerCssFile("{$uri}/css/sweetalert2.min.css", ['depends' => JqueryAsset::class]);
 $this->registerJsFile("{$uri}/js/training/index.js", ['depends' => JqueryAsset::class]);
 
 require_once "{$path}/training/modal/_template.php";
